@@ -7,11 +7,11 @@ services:
       - "3001:3001"
 
   order-service:
-    build: ./order-service/order-service
+    build: ./order-service
     ports:
       - "3002:3002"
 
   payment-service:
-    build: ./payment-service/payment-service
+    build: ./payment-service
     ports:
       - "3003:3003"

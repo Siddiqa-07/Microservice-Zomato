@@ -3,14 +3,40 @@ const app = express();
 
 app.use(express.json());
 
+// Temporary storage (database ki jagah)
+let users = [];
+
 // Signup API
 app.post("/signup", (req, res) => {
-  res.send("User registered");
+  const { name, email, password } = req.body;
+
+  const userExists = users.find(u => u.email === email);
+  if (userExists) {
+    return res.send("User already exists");
+  }
+
+  users.push({ name, email, password });
+  res.send("User registered successfully");
 });
 
 // Login API
 app.post("/login", (req, res) => {
-  res.send("User logged in");
+  const { email, password } = req.body;
+
+  const user = users.find(
+    u => u.email === email && u.password === password
+  );
+
+  if (!user) {
+    return res.send("Invalid credentials");
+  }
+
+  res.send("Login successful");
+});
+
+// Get all users
+app.get("/users", (req, res) => {
+  res.json(users);
 });
 
 app.listen(3001, () => {
